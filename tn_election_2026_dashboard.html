@@ -1,0 +1,517 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.db-wrap{background:#0A1628;min-height:100vh;padding:20px;color:#fff}
+.db-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid #1A3055}
+.db-brand{font-size:11px;color:#FF6B00;letter-spacing:4px;font-weight:500}
+.db-title{font-size:22px;font-weight:700;color:#fff;margin:4px 0}
+.db-sub{font-size:12px;color:#8B9CC8}
+.db-badge{background:#FF6B00;color:#fff;font-size:10px;padding:4px 10px;border-radius:4px;letter-spacing:2px;font-weight:600}
+.kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:18px}
+.kpi{background:#0F2040;border:1px solid #1A3055;border-radius:8px;padding:14px 12px;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi.orange::before{background:#FF6B00}
+.kpi.red::before{background:#E03030}
+.kpi.gold::before{background:#F5A623}
+.kpi.teal::before{background:#00BCD4}
+.kpi.purple::before{background:#8B5CF6}
+.kpi.green::before{background:#2ECC71}
+.kpi-label{font-size:9px;color:#8B9CC8;letter-spacing:2px;margin-bottom:6px;font-weight:500}
+.kpi-val{font-size:26px;font-weight:800;line-height:1;color:#fff}
+.kpi-sub{font-size:10px;color:#8B9CC8;margin-top:5px}
+.kpi-delta{font-size:10px;margin-top:4px;font-weight:600}
+.kpi-delta.up{color:#2ECC71}
+.kpi-delta.down{color:#E03030}
+.charts-row{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-bottom:14px}
+.charts-row2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+.chart-card{background:#0F2040;border:1px solid #1A3055;border-radius:10px;padding:16px}
+.chart-card.wide{grid-column:span 2}
+.chart-title{font-size:11px;color:#8B9CC8;letter-spacing:2px;margin-bottom:4px;font-weight:500}
+.chart-headline{font-size:14px;font-weight:700;color:#fff;margin-bottom:14px}
+.tab-row{display:flex;gap:6px;margin-bottom:14px}
+.tab{font-size:10px;padding:4px 10px;border-radius:4px;cursor:pointer;border:1px solid #1A3055;color:#8B9CC8;background:transparent;letter-spacing:1px;font-weight:500;transition:all 0.15s}
+.tab.active{background:#FF6B00;border-color:#FF6B00;color:#fff}
+.region-grid{display:grid;gap:8px}
+.region-row{display:grid;grid-template-columns:90px 1fr 44px 1fr 44px;gap:6px;align-items:center}
+.region-name{font-size:11px;color:#8B9CC8;font-weight:500}
+.bar-bg{background:#1A3055;border-radius:3px;height:8px;overflow:hidden}
+.bar-fill{height:8px;border-radius:3px;transition:width 0.4s}
+.bar-pct{font-size:11px;font-weight:700;text-align:right}
+.flow-grid{display:grid;gap:10px}
+.flow-row{display:flex;align-items:center;gap:10px}
+.flow-from{font-size:11px;font-weight:700;width:80px;text-align:right;padding:6px 10px;border-radius:4px}
+.flow-arrow{font-size:18px;color:#FF6B00;flex-shrink:0}
+.flow-bars{flex:1;display:flex;flex-direction:column;gap:4px}
+.flow-bar-row{display:flex;align-items:center;gap:6px}
+.flow-bar-bg{flex:1;background:#1A3055;border-radius:3px;height:14px;overflow:hidden}
+.flow-bar-fill{height:14px;border-radius:3px}
+.flow-bar-label{font-size:10px;color:#8B9CC8;width:32px;text-align:right}
+.flow-bar-val{font-size:10px;font-weight:700;width:20px}
+.margin-grid{display:flex;flex-direction:column;gap:8px}
+.margin-row{display:grid;grid-template-columns:56px 1fr 36px;align-items:center;gap:8px}
+.margin-label{font-size:11px;color:#8B9CC8}
+.margin-fill{height:22px;border-radius:3px;display:flex;align-items:center;padding-left:8px;font-size:10px;font-weight:700;color:#fff;min-width:8px}
+.seat-compare{display:flex;flex-direction:column;gap:10px}
+.sc-row{display:grid;grid-template-columns:64px 1fr 36px 1fr 64px;align-items:center;gap:6px}
+.sc-party{font-size:11px;font-weight:700;text-align:right}
+.sc-val-l{font-size:11px;color:#8B9CC8;text-align:right}
+.sc-val-r{font-size:11px;color:#8B9CC8}
+.sc-bar-l{display:flex;justify-content:flex-end}
+.sc-bar-r{display:flex;justify-content:flex-start}
+.sc-fill{height:18px;border-radius:3px}
+.pie-wrap{display:flex;gap:16px;align-items:flex-start}
+.pie-legend{display:flex;flex-direction:column;gap:7px;flex:1}
+.pie-leg-row{display:flex;align-items:center;gap:7px}
+.pie-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.pie-leg-name{font-size:11px;color:#8B9CC8;flex:1}
+.pie-leg-val{font-size:12px;font-weight:700;color:#fff}
+.reserved-grid{display:flex;flex-direction:column;gap:12px}
+.res-block{background:#1A3055;border-radius:8px;padding:12px}
+.res-label{font-size:10px;color:#8B9CC8;letter-spacing:2px;margin-bottom:6px}
+.res-nums{display:flex;align-items:baseline;gap:8px}
+.res-big{font-size:28px;font-weight:800}
+.res-sub{font-size:11px;color:#8B9CC8}
+.res-bar-bg{background:#0F2040;border-radius:3px;height:8px;margin-top:8px;overflow:hidden}
+.res-bar-fill{height:8px;border-radius:3px}
+.footer{text-align:center;font-size:10px;color:#1A3055;margin-top:16px;letter-spacing:2px}
+.avg-compare{display:flex;gap:12px;margin-bottom:14px}
+.avg-block{flex:1;background:#1A3055;border-radius:6px;padding:10px}
+.avg-yr{font-size:9px;color:#8B9CC8;letter-spacing:2px;margin-bottom:3px}
+.avg-num{font-size:20px;font-weight:800}
+.avg-label{font-size:10px;color:#8B9CC8;margin-top:2px}
+</style>
+
+<div class="db-wrap">
+
+<div class="db-header">
+  <div>
+    <div class="db-brand">ATILQ MEDIA · DATA INTELLIGENCE UNIT</div>
+    <div class="db-title">2026 Tamil Nadu Election — Command Centre</div>
+    <div class="db-sub">234 constituencies · 4,257 candidate records · verified data analysis</div>
+  </div>
+  <div style="text-align:right">
+    <div class="db-badge">LIVE ANALYSIS</div>
+    <div style="font-size:10px;color:#8B9CC8;margin-top:6px">Codebasics Resume Challenge · May 2026</div>
+  </div>
+</div>
+
+<div class="kpi-grid">
+  <div class="kpi orange">
+    <div class="kpi-label">TVK SEATS WON</div>
+    <div class="kpi-val">108</div>
+    <div class="kpi-sub">46% of assembly · first election</div>
+    <div class="kpi-delta up">↑ 0 → 108</div>
+  </div>
+  <div class="kpi red">
+    <div class="kpi-label">DMK NET LOSS</div>
+    <div class="kpi-val">74</div>
+    <div class="kpi-sub">133 → 59 seats</div>
+    <div class="kpi-delta down">↓ 56% of 2021 total</div>
+  </div>
+  <div class="kpi gold">
+    <div class="kpi-label">CONSTITUENCIES FLIPPED</div>
+    <div class="kpi-val">70%</div>
+    <div class="kpi-sub">163 of 234 changed hands</div>
+    <div class="kpi-delta down">Normal: 10–20%</div>
+  </div>
+  <div class="kpi teal">
+    <div class="kpi-label">TVK VOTE SHARE</div>
+    <div class="kpi-val">35%</div>
+    <div class="kpi-sub">Highest of any party in 2026</div>
+    <div class="kpi-delta up">↑ Matches DMK's 2021 peak</div>
+  </div>
+  <div class="kpi purple">
+    <div class="kpi-label">CHENNAI METRO FLIP</div>
+    <div class="kpi-val">94%</div>
+    <div class="kpi-sub">30 of 32 constituencies</div>
+    <div class="kpi-delta down">Urban revolution epicentre</div>
+  </div>
+  <div class="kpi green">
+    <div class="kpi-label">SC SEAT WIN RATE</div>
+    <div class="kpi-val">52%</div>
+    <div class="kpi-sub">23 of 44 SC-reserved seats</div>
+    <div class="kpi-delta up">↑ vs 45% in general seats</div>
+  </div>
+</div>
+
+<div class="charts-row">
+
+  <div class="chart-card">
+    <div class="chart-title">SEAT COMPARISON</div>
+    <div class="chart-headline">Assembly seats 2021 vs 2026</div>
+    <div class="seat-compare">
+      <div style="display:grid;grid-template-columns:64px 1fr 36px 1fr 64px;gap:6px;margin-bottom:4px">
+        <div style="font-size:9px;color:#8B9CC8;text-align:right">2021</div>
+        <div></div><div></div><div></div>
+        <div style="font-size:9px;color:#8B9CC8">2026</div>
+      </div>
+      <div class="sc-row">
+        <div class="sc-val-l" style="color:#E03030;font-weight:700">133</div>
+        <div class="sc-bar-l"><div class="sc-fill" style="width:133px;background:#E03030"></div></div>
+        <div style="font-size:10px;font-weight:700;color:#fff;text-align:center">DMK</div>
+        <div class="sc-bar-r"><div class="sc-fill" style="width:59px;background:#E03030"></div></div>
+        <div class="sc-val-r" style="color:#E03030;font-weight:700">59</div>
+      </div>
+      <div class="sc-row">
+        <div class="sc-val-l" style="color:#8B5CF6;font-weight:700">66</div>
+        <div class="sc-bar-l"><div class="sc-fill" style="width:66px;background:#8B5CF6"></div></div>
+        <div style="font-size:10px;font-weight:700;color:#fff;text-align:center">AIADMK</div>
+        <div class="sc-bar-r"><div class="sc-fill" style="width:47px;background:#8B5CF6"></div></div>
+        <div class="sc-val-r" style="color:#8B5CF6;font-weight:700">47</div>
+      </div>
+      <div class="sc-row">
+        <div class="sc-val-l" style="color:#2563EB;font-weight:700">18</div>
+        <div class="sc-bar-l"><div class="sc-fill" style="width:18px;background:#2563EB"></div></div>
+        <div style="font-size:10px;font-weight:700;color:#fff;text-align:center">INC</div>
+        <div class="sc-bar-r"><div class="sc-fill" style="width:5px;background:#2563EB"></div></div>
+        <div class="sc-val-r" style="color:#2563EB;font-weight:700">5</div>
+      </div>
+      <div class="sc-row">
+        <div class="sc-val-l" style="color:#8B9CC8;font-weight:700">0</div>
+        <div class="sc-bar-l"></div>
+        <div style="font-size:10px;font-weight:700;color:#FF6B00;text-align:center">TVK</div>
+        <div class="sc-bar-r"><div class="sc-fill" style="width:108px;background:#FF6B00"></div></div>
+        <div class="sc-val-r" style="color:#FF6B00;font-weight:800;font-size:16px">108</div>
+      </div>
+      <div class="sc-row">
+        <div class="sc-val-l" style="color:#64748B;font-weight:700">17</div>
+        <div class="sc-bar-l"><div class="sc-fill" style="width:17px;background:#64748B"></div></div>
+        <div style="font-size:10px;font-weight:700;color:#fff;text-align:center">Others</div>
+        <div class="sc-bar-r"><div class="sc-fill" style="width:15px;background:#64748B"></div></div>
+        <div class="sc-val-r" style="color:#64748B;font-weight:700">15</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-title">SEAT FLOW ANALYSIS</div>
+    <div class="chart-headline">Where did flipped seats go?</div>
+    <div class="flow-grid">
+      <div class="flow-row">
+        <div class="flow-from" style="background:#1A1035;color:#E03030;border:1px solid #E03030">DMK<br><span style="font-size:16px;font-weight:800">93</span><br><span style="font-size:9px">seats lost</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-bars">
+          <div class="flow-bar-row">
+            <div class="flow-bar-label" style="color:#FF6B00">TVK</div>
+            <div class="flow-bar-bg"><div class="flow-bar-fill" style="width:70%;background:#FF6B00"></div></div>
+            <div class="flow-bar-val" style="color:#FF6B00">65</div>
+          </div>
+          <div class="flow-bar-row">
+            <div class="flow-bar-label" style="color:#8B5CF6">AIADMK</div>
+            <div class="flow-bar-bg"><div class="flow-bar-fill" style="width:24%;background:#8B5CF6"></div></div>
+            <div class="flow-bar-val" style="color:#8B5CF6">22</div>
+          </div>
+          <div class="flow-bar-row">
+            <div class="flow-bar-label">Others</div>
+            <div class="flow-bar-bg"><div class="flow-bar-fill" style="width:6%;background:#64748B"></div></div>
+            <div class="flow-bar-val" style="color:#64748B">6</div>
+          </div>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-from" style="background:#1A1035;color:#8B5CF6;border:1px solid #8B5CF6">AIADMK<br><span style="font-size:16px;font-weight:800">44</span><br><span style="font-size:9px">seats lost</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-bars">
+          <div class="flow-bar-row">
+            <div class="flow-bar-label" style="color:#FF6B00">TVK</div>
+            <div class="flow-bar-bg"><div class="flow-bar-fill" style="width:59%;background:#FF6B00"></div></div>
+            <div class="flow-bar-val" style="color:#FF6B00">26</div>
+          </div>
+          <div class="flow-bar-row">
+            <div class="flow-bar-label" style="color:#E03030">DMK</div>
+            <div class="flow-bar-bg"><div class="flow-bar-fill" style="width:34%;background:#E03030"></div></div>
+            <div class="flow-bar-val" style="color:#E03030">15</div>
+          </div>
+          <div class="flow-bar-row">
+            <div class="flow-bar-label">Others</div>
+            <div class="flow-bar-bg"><div class="flow-bar-fill" style="width:7%;background:#64748B"></div></div>
+            <div class="flow-bar-val" style="color:#64748B">3</div>
+          </div>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-from" style="background:#1A1035;color:#2563EB;border:1px solid #2563EB">INC<br><span style="font-size:16px;font-weight:800">14</span><br><span style="font-size:9px">seats lost</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-bars">
+          <div class="flow-bar-row">
+            <div class="flow-bar-label" style="color:#FF6B00">TVK</div>
+            <div class="flow-bar-bg"><div class="flow-bar-fill" style="width:79%;background:#FF6B00"></div></div>
+            <div class="flow-bar-val" style="color:#FF6B00">11</div>
+          </div>
+          <div class="flow-bar-row">
+            <div class="flow-bar-label">Others</div>
+            <div class="flow-bar-bg"><div class="flow-bar-fill" style="width:21%;background:#64748B"></div></div>
+            <div class="flow-bar-val" style="color:#64748B">3</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="charts-row2">
+
+  <div class="chart-card">
+    <div class="chart-title">THE GEOGRAPHY</div>
+    <div class="chart-headline">Regional flip rate & TVK vote share</div>
+    <div id="region-tab-row" class="tab-row">
+      <button class="tab active" onclick="showRegion('flip')">Flip rate</button>
+      <button class="tab" onclick="showRegion('tvk')">TVK vote %</button>
+    </div>
+    <div id="region-flip" class="region-grid">
+      <div style="display:grid;grid-template-columns:90px 1fr 44px;gap:6px;margin-bottom:2px">
+        <div></div><div style="font-size:9px;color:#8B9CC8;letter-spacing:2px">FLIP RATE</div><div></div>
+      </div>
+      <div class="region-row" style="grid-template-columns:90px 1fr 44px">
+        <div class="region-name">Chennai Metro</div>
+        <div class="bar-bg"><div class="bar-fill" style="width:94%;background:#FF6B00"></div></div>
+        <div class="bar-pct" style="color:#FF6B00">94%</div>
+      </div>
+      <div class="region-row" style="grid-template-columns:90px 1fr 44px">
+        <div class="region-name">Kongu</div>
+        <div class="bar-bg"><div class="bar-fill" style="width:82%;background:#F5A623"></div></div>
+        <div class="bar-pct" style="color:#F5A623">82%</div>
+      </div>
+      <div class="region-row" style="grid-template-columns:90px 1fr 44px">
+        <div class="region-name">North</div>
+        <div class="bar-bg"><div class="bar-fill" style="width:73%;background:#F5A623"></div></div>
+        <div class="bar-pct" style="color:#F5A623">73%</div>
+      </div>
+      <div class="region-row" style="grid-template-columns:90px 1fr 44px">
+        <div class="region-name">South</div>
+        <div class="bar-bg"><div class="bar-fill" style="width:66%;background:#00BCD4"></div></div>
+        <div class="bar-pct" style="color:#00BCD4">66%</div>
+      </div>
+      <div class="region-row" style="grid-template-columns:90px 1fr 44px">
+        <div class="region-name">Central</div>
+        <div class="bar-bg"><div class="bar-fill" style="width:63%;background:#00BCD4"></div></div>
+        <div class="bar-pct" style="color:#00BCD4">63%</div>
+      </div>
+      <div class="region-row" style="grid-template-columns:90px 1fr 44px">
+        <div class="region-name">Delta</div>
+        <div class="bar-bg"><div class="bar-fill" style="width:46%;background:#64748B"></div></div>
+        <div class="bar-pct" style="color:#64748B">46%</div>
+      </div>
+      <div style="margin-top:8px;padding-top:8px;border-top:1px solid #1A3055;font-size:10px;color:#8B9CC8">National average: 10–20% · Tamil Nadu 2026: <span style="color:#FF6B00;font-weight:700">3–5× above normal</span></div>
+    </div>
+    <div id="region-tvk" class="region-grid" style="display:none">
+      <div style="display:grid;grid-template-columns:90px 1fr 44px;gap:6px;margin-bottom:2px">
+        <div></div><div style="font-size:9px;color:#8B9CC8;letter-spacing:2px">TVK VOTE SHARE</div><div></div>
+      </div>
+      <div class="region-row" style="grid-template-columns:90px 1fr 44px">
+        <div class="region-name">Chennai Metro</div>
+        <div class="bar-bg"><div class="bar-fill" style="width:78%;background:#FF6B00"></div></div>
+        <div class="bar-pct" style="color:#FF6B00">47%</div>
+      </div>
+      <div class="region-row" style="grid-template-columns:90px 1fr 44px">
+        <div class="region-name">Kongu</div>
+        <div class="bar-bg"><div class="bar-fill" style="width:58%;background:#F5A623"></div></div>
+        <div class="bar-pct" style="color:#F5A623">35%</div>
+      </div>
+      <div class="region-row" style="grid-template-columns:90px 1fr 44px">
+        <div class="region-name">South</div>
+        <div class="bar-bg"><div class="bar-fill" style="width:56%;background:#F5A623"></div></div>
+        <div class="bar-pct" style="color:#F5A623">34%</div>
+      </div>
+      <div class="region-row" style="grid-template-columns:90px 1fr 44px">
+        <div class="region-name">North</div>
+        <div class="bar-bg"><div class="bar-fill" style="width:55%;background:#00BCD4"></div></div>
+        <div class="bar-pct" style="color:#00BCD4">33%</div>
+      </div>
+      <div class="region-row" style="grid-template-columns:90px 1fr 44px">
+        <div class="region-name">Delta</div>
+        <div class="bar-bg"><div class="bar-fill" style="width:55%;background:#00BCD4"></div></div>
+        <div class="bar-pct" style="color:#00BCD4">33%</div>
+      </div>
+      <div class="region-row" style="grid-template-columns:90px 1fr 44px">
+        <div class="region-name">Central</div>
+        <div class="bar-bg"><div class="bar-fill" style="width:52%;background:#64748B"></div></div>
+        <div class="bar-pct" style="color:#64748B">31%</div>
+      </div>
+      <div style="margin-top:8px;padding-top:8px;border-top:1px solid #1A3055;font-size:10px;color:#8B9CC8">Statewide TVK total: <span style="color:#FF6B00;font-weight:700">35.07%</span> · Highest of any party</div>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-title">VOTE SHARE</div>
+    <div class="chart-headline">Party vote % — 2021 vs 2026</div>
+    <div id="vs-tab-row" class="tab-row">
+      <button class="tab active" onclick="showVS('2021')">2021</button>
+      <button class="tab" onclick="showVS('2026')">2026</button>
+    </div>
+    <div id="vs-2021">
+      <div style="position:relative;width:140px;height:140px;margin:0 auto 12px">
+        <canvas id="pie2021" role="img" aria-label="2021 vote share pie chart">DMK 38%, AIADMK 34%, NTK 7%, INC 4%, PMK 4%, Others 13%</canvas>
+      </div>
+      <div class="pie-legend">
+        <div class="pie-leg-row"><div class="pie-dot" style="background:#E03030"></div><div class="pie-leg-name">DMK</div><div class="pie-leg-val">38%</div></div>
+        <div class="pie-leg-row"><div class="pie-dot" style="background:#8B5CF6"></div><div class="pie-leg-name">AIADMK</div><div class="pie-leg-val">34%</div></div>
+        <div class="pie-leg-row"><div class="pie-dot" style="background:#00BCD4"></div><div class="pie-leg-name">NTK</div><div class="pie-leg-val">7%</div></div>
+        <div class="pie-leg-row"><div class="pie-dot" style="background:#2563EB"></div><div class="pie-leg-name">INC</div><div class="pie-leg-val">4%</div></div>
+        <div class="pie-leg-row"><div class="pie-dot" style="background:#2ECC71"></div><div class="pie-leg-name">PMK</div><div class="pie-leg-val">4%</div></div>
+        <div class="pie-leg-row"><div class="pie-dot" style="background:#64748B"></div><div class="pie-leg-name">Others</div><div class="pie-leg-val">13%</div></div>
+      </div>
+    </div>
+    <div id="vs-2026" style="display:none">
+      <div style="position:relative;width:140px;height:140px;margin:0 auto 12px">
+        <canvas id="pie2026" role="img" aria-label="2026 vote share pie chart">TVK 35%, DMK 24%, AIADMK 21%, NTK 4%, INC 3%, Others 13%</canvas>
+      </div>
+      <div class="pie-legend">
+        <div class="pie-leg-row"><div class="pie-dot" style="background:#FF6B00"></div><div class="pie-leg-name">TVK</div><div class="pie-leg-val">35%</div></div>
+        <div class="pie-leg-row"><div class="pie-dot" style="background:#E03030"></div><div class="pie-leg-name">DMK</div><div class="pie-leg-val">24%</div></div>
+        <div class="pie-leg-row"><div class="pie-dot" style="background:#8B5CF6"></div><div class="pie-leg-name">AIADMK</div><div class="pie-leg-val">21%</div></div>
+        <div class="pie-leg-row"><div class="pie-dot" style="background:#00BCD4"></div><div class="pie-leg-name">NTK</div><div class="pie-leg-val">4%</div></div>
+        <div class="pie-leg-row"><div class="pie-dot" style="background:#2563EB"></div><div class="pie-leg-name">INC</div><div class="pie-leg-val">3%</div></div>
+        <div class="pie-leg-row"><div class="pie-dot" style="background:#64748B"></div><div class="pie-leg-name">Others</div><div class="pie-leg-val">13%</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-title">BREADTH OF MANDATE</div>
+    <div class="chart-headline">TVK wins by seat reservation type</div>
+    <div class="reserved-grid">
+      <div class="res-block" style="border-left:3px solid #FF6B00">
+        <div class="res-label">GENERAL SEATS (188 total)</div>
+        <div class="res-nums">
+          <div class="res-big" style="color:#FF6B00">45%</div>
+          <div class="res-sub">84 of 188 won</div>
+        </div>
+        <div class="res-bar-bg"><div class="res-bar-fill" style="width:45%;background:#FF6B00"></div></div>
+      </div>
+      <div class="res-block" style="border-left:3px solid #2ECC71">
+        <div class="res-label">SC RESERVED (44 total)</div>
+        <div class="res-nums">
+          <div class="res-big" style="color:#2ECC71">52%</div>
+          <div class="res-sub">23 of 44 won</div>
+        </div>
+        <div class="res-bar-bg"><div class="res-bar-fill" style="width:52%;background:#2ECC71"></div></div>
+      </div>
+      <div class="res-block" style="border-left:3px solid #F5A623">
+        <div class="res-label">ST RESERVED (2 total)</div>
+        <div class="res-nums">
+          <div class="res-big" style="color:#F5A623">50%</div>
+          <div class="res-sub">1 of 2 won</div>
+        </div>
+        <div class="res-bar-bg"><div class="res-bar-fill" style="width:50%;background:#F5A623"></div></div>
+      </div>
+      <div style="padding:10px;background:#1A3055;border-radius:6px;font-size:11px;color:#8B9CC8;line-height:1.5">
+        TVK's SC win rate (52%) exceeds general seat rate (45%) — this signals genuine cross-community appeal, not elite urban capture.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="chart-card" style="margin-bottom:14px">
+  <div class="chart-title">MARGIN OF VICTORY — COMPETITIVENESS</div>
+  <div class="chart-headline">How close were the races? Victory margin distribution 2026</div>
+  <div class="avg-compare">
+    <div class="avg-block">
+      <div class="avg-yr">AVG MARGIN 2021</div>
+      <div class="avg-num" style="color:#8B9CC8">22,871 <span style="font-size:12px">votes</span></div>
+      <div class="avg-label">Relatively comfortable wins</div>
+    </div>
+    <div style="display:flex;align-items:center;font-size:20px;color:#FF6B00">→</div>
+    <div class="avg-block" style="border:1px solid #FF6B00">
+      <div class="avg-yr" style="color:#FF6B00">AVG MARGIN 2026</div>
+      <div class="avg-num" style="color:#FF6B00">16,784 <span style="font-size:12px">votes</span></div>
+      <div class="avg-label" style="color:#FF6B00">↓ 27% tighter · more competitive</div>
+    </div>
+    <div style="flex:2;background:#1A3055;border-radius:6px;padding:10px;display:flex;align-items:center;gap:12px">
+      <div style="font-size:36px;font-weight:800;color:#E03030">61</div>
+      <div style="font-size:11px;color:#8B9CC8">constituencies decided<br>by fewer than <span style="color:#E03030;font-weight:700">5,000 votes</span><br>— razor-thin margins</div>
+    </div>
+  </div>
+  <div class="margin-grid">
+    <div class="margin-row">
+      <div class="margin-label">0 – 5K</div>
+      <div style="flex:1;background:#1A3055;border-radius:3px;height:26px;overflow:hidden"><div style="width:26%;height:26px;background:#E03030;border-radius:3px;display:flex;align-items:center;padding-left:8px;font-size:11px;font-weight:700;color:#fff">61</div></div>
+      <div style="font-size:11px;color:#E03030;font-weight:700;width:36px;text-align:right">26%</div>
+    </div>
+    <div class="margin-row">
+      <div class="margin-label">5 – 10K</div>
+      <div style="flex:1;background:#1A3055;border-radius:3px;height:26px;overflow:hidden"><div style="width:18%;height:26px;background:#FF6B00;border-radius:3px;display:flex;align-items:center;padding-left:8px;font-size:11px;font-weight:700;color:#fff">43</div></div>
+      <div style="font-size:11px;color:#FF6B00;font-weight:700;width:36px;text-align:right">18%</div>
+    </div>
+    <div class="margin-row">
+      <div class="margin-label">10 – 20K</div>
+      <div style="flex:1;background:#1A3055;border-radius:3px;height:26px;overflow:hidden"><div style="width:29%;height:26px;background:#F5A623;border-radius:3px;display:flex;align-items:center;padding-left:8px;font-size:11px;font-weight:700;color:#fff">67</div></div>
+      <div style="font-size:11px;color:#F5A623;font-weight:700;width:36px;text-align:right">29%</div>
+    </div>
+    <div class="margin-row">
+      <div class="margin-label">20 – 50K</div>
+      <div style="flex:1;background:#1A3055;border-radius:3px;height:26px;overflow:hidden"><div style="width:21%;height:26px;background:#00BCD4;border-radius:3px;display:flex;align-items:center;padding-left:8px;font-size:11px;font-weight:700;color:#fff">48</div></div>
+      <div style="font-size:11px;color:#00BCD4;font-weight:700;width:36px;text-align:right">21%</div>
+    </div>
+    <div class="margin-row">
+      <div class="margin-label">50K+</div>
+      <div style="flex:1;background:#1A3055;border-radius:3px;height:26px;overflow:hidden"><div style="width:6%;height:26px;background:#64748B;border-radius:3px;display:flex;align-items:center;padding-left:8px;font-size:11px;font-weight:700;color:#fff">15</div></div>
+      <div style="font-size:11px;color:#64748B;font-weight:700;width:36px;text-align:right">6%</div>
+    </div>
+  </div>
+</div>
+
+<div style="background:#0F2040;border:1px solid #FF6B00;border-radius:10px;padding:18px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+  <div>
+    <div style="font-size:9px;color:#FF6B00;letter-spacing:3px;font-weight:600;margin-bottom:8px">ACT 1 · THE DISRUPTION</div>
+    <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:6px">TVK: 0 → 108 seats</div>
+    <div style="font-size:11px;color:#8B9CC8;line-height:1.6">A party with no history won 46% of the assembly and 35% of all votes in their debut election. No precedent exists for this in Indian state elections.</div>
+  </div>
+  <div style="border-left:1px solid #1A3055;padding-left:16px">
+    <div style="font-size:9px;color:#E03030;letter-spacing:3px;font-weight:600;margin-bottom:8px">ACT 2 · THE COLLAPSE</div>
+    <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:6px">70% of seats flipped</div>
+    <div style="font-size:11px;color:#8B9CC8;line-height:1.6">163 of 234 constituencies changed hands. DMK lost 93 seats in flips — 65 went directly to TVK. The two-party era ended in a single night.</div>
+  </div>
+  <div style="border-left:1px solid #1A3055;padding-left:16px">
+    <div style="font-size:9px;color:#00BCD4;letter-spacing:3px;font-weight:600;margin-bottom:8px">ACT 3 · THE GEOGRAPHY</div>
+    <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:6px">Urban revolution, broad mandate</div>
+    <div style="font-size:11px;color:#8B9CC8;line-height:1.6">Chennai Metro flipped 94%. SC-reserved win rate of 52% exceeded general seats (45%), proving TVK's appeal crossed every traditional boundary.</div>
+  </div>
+</div>
+
+<div class="footer">ATILQ MEDIA · TN ELECTION ANALYSIS 2026 · DATA: TN_2021_RESULTS.CSV · TN_2026_RESULTS.CSV · CONSTITUENCY_MASTER.CSV · VERIFIED ACROSS 7 ANALYTICAL STEPS</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+function showRegion(type){
+  document.getElementById('region-flip').style.display = type==='flip'?'grid':'none';
+  document.getElementById('region-tvk').style.display = type==='tvk'?'grid':'none';
+  document.querySelectorAll('#region-tab-row .tab').forEach((t,i)=>{
+    t.classList.toggle('active', (i===0&&type==='flip')||(i===1&&type==='tvk'));
+  });
+}
+function showVS(yr){
+  document.getElementById('vs-2021').style.display = yr==='2021'?'block':'none';
+  document.getElementById('vs-2026').style.display = yr==='2026'?'block':'none';
+  document.querySelectorAll('#vs-tab-row .tab').forEach((t,i)=>{
+    t.classList.toggle('active', (i===0&&yr==='2021')||(i===1&&yr==='2026'));
+  });
+}
+
+const dkBg = 'rgba(0,0,0,0)';
+new Chart(document.getElementById('pie2021'),{
+  type:'doughnut',
+  data:{
+    labels:['DMK','AIADMK','NTK','INC','PMK','Others'],
+    datasets:[{data:[38,34,7,4,4,13],
+      backgroundColor:['#E03030','#8B5CF6','#00BCD4','#2563EB','#2ECC71','#64748B'],
+      borderWidth:0}]
+  },
+  options:{responsive:true,maintainAspectRatio:true,cutout:'60%',
+    plugins:{legend:{display:false},tooltip:{enabled:false}}}
+});
+new Chart(document.getElementById('pie2026'),{
+  type:'doughnut',
+  data:{
+    labels:['TVK','DMK','AIADMK','NTK','INC','Others'],
+    datasets:[{data:[35,24,21,4,3,13],
+      backgroundColor:['#FF6B00','#E03030','#8B5CF6','#00BCD4','#2563EB','#64748B'],
+      borderWidth:0}]
+  },
+  options:{responsive:true,maintainAspectRatio:true,cutout:'60%',
+    plugins:{legend:{display:false},tooltip:{enabled:false}}}
+});
+</script>

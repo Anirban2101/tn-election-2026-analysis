@@ -1,0 +1,107 @@
+{
+  "election_title": "2026 Tamil Nadu Assembly Election Analysis",
+  "analysis_date": "2026",
+  "seats_total": 234,
+  "party_performance": {
+    "tvk": {
+      "seats_2021": 0,
+      "seats_2026": 108,
+      "seat_change": 108,
+      "vote_share_2026": 35.07,
+      "seats_percent": 46.15
+    },
+    "dmk": {
+      "seats_2021": 133,
+      "seats_2026": 59,
+      "seat_change": -74,
+      "vote_share_2026": 28.5,
+      "seats_percent": 25.21
+    },
+    "aiadmk": {
+      "seats_2021": 66,
+      "seats_2026": 47,
+      "seat_change": -19,
+      "vote_share_2026": 20.15,
+      "seats_percent": 20.09
+    }
+  },
+  "flip_analysis": {
+    "total_constituencies": 234,
+    "constituencies_flipped": 144,
+    "flip_percentage": 72.0,
+    "constituencies_unchanged": 90,
+    "unchanged_percentage": 28.0,
+    "normal_flip_rate": "10-20%"
+  },
+  "tvk_vote_sources": {
+    "from_dmk": 57,
+    "from_aiadmk": 22,
+    "from_inc": 9,
+    "from_others": 5,
+    "tvk_total_seats_from_flips": 93
+  },
+  "dmk_loss_distribution": {
+    "to_tvk": 57,
+    "to_aiadmk": 22,
+    "to_others": 6,
+    "total_lost": 85
+  },
+  "regional_breakdown": {
+    "chennai_metro": {
+      "flip_rate": 93.1,
+      "tvk_vote_share": 47,
+      "seats": 32
+    },
+    "kongu": {
+      "flip_rate": 78.6,
+      "tvk_vote_share": 38,
+      "seats": 33
+    },
+    "north": {
+      "flip_rate": 76.7,
+      "tvk_vote_share": 35,
+      "seats": 37
+    },
+    "south": {
+      "flip_rate": 69.8,
+      "tvk_vote_share": 30,
+      "seats": 58
+    },
+    "central": {
+      "flip_rate": 68.6,
+      "tvk_vote_share": 33,
+      "seats": 35
+    },
+    "delta": {
+      "flip_rate": 44.0,
+      "tvk_vote_share": 25,
+      "seats": 33
+    }
+  },
+  "reserved_seats_analysis": {
+    "tvk_in_general": 81,
+    "tvk_in_sc": 20,
+    "tvk_in_st": 0,
+    "general_seats_total": 188,
+    "sc_seats_total": 44,
+    "st_seats_total": 2,
+    "tvk_performance_general_percent": 43.1,
+    "tvk_performance_sc_percent": 45.5
+  },
+  "margin_analysis": {
+    "mean_margin_2021": 22295,
+    "mean_margin_2026": 16863,
+    "margin_decrease": 5432,
+    "min_margin_2026": 1,
+    "max_margin_2026": 96780,
+    "competitive_interpretation": "Races in 2026 were more competitive than 2021"
+  },
+  "key_stories": {
+    "story_1": "TVK emerged from nowhere to win 108 seats (46% of Assembly) and 35% of votes in their first election",
+    "story_2": "72% of constituencies flipped - historic disruption (normal elections: 10-20% flips)",
+    "story_3": "TVK pulled 67% of their gains directly from DMK, showing targeted voter consolidation",
+    "story_4": "TVK dominated urban areas (Chennai Metro: 47% vote share, 93% flip rate)",
+    "story_5": "TVK stronger in SC reserved seats (45%) than general seats (43%), showing broad appeal"
+  },
+  "headline": "A new party disrupted Tamil Nadu politics in 2026, winning near-majority in first election"
+}
